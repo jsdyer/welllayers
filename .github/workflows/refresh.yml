@@ -1,5 +1,8 @@
 name: Refresh public dataset
 on:
+  push:
+    branches: [main]
+    paths: ['scripts/refresh.py', '.github/workflows/refresh.yml']
   schedule:
     - cron: '33 10 4 * *'
   workflow_dispatch:

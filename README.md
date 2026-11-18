@@ -14,7 +14,7 @@ The driller’s source unit is feet. Metres use the exact factor 0.3048. Layers 
 
 ## Data and updates
 
-[B.C. GWELLS API](https://apps.nrs.gov.bc.ca/gwells/api/) and [Nova Scotia Well Logs Database](https://novascotia.ca/nse/groundwater/welldatabase.asp) supplies the underlying records. A monthly GitHub Action downloads the sources and validates the complete edition. The homepage reads the count and retrieval date from [status metadata](https://coolcode.ca/welllayers/data/status.json). The date records when the upstream data was read. Each archive retains its original coverage. When a refresh fails the previously published edition remains available.
+[B.C. GWELLS API](https://apps.nrs.gov.bc.ca/gwells/api/) and [Nova Scotia Well Logs Database](https://novascotia.ca/nse/groundwater/welldatabase.asp) supply the underlying records. A monthly GitHub Action downloads the sources and validates the complete edition. The homepage reads the count and retrieval date from [status metadata](https://coolcode.ca/welllayers/data/status.json). The date records when the upstream data was read. Each archive retains its original coverage. When a refresh fails the previously published edition remains available.
 
 ## Development
 

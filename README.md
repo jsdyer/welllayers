@@ -4,6 +4,7 @@
 
 <!-- coolcode:guide -->
 Compare Langley well 48 with a Fall River log. Switch between feet and metres to see both drillers’ recorded depths on a common scale.
+The aligned table splits the pair at each recorded boundary and flags depths beyond the shorter log.
 <!-- /coolcode:guide -->
 
 ## Reading the records
@@ -19,3 +20,5 @@ The driller’s source unit is feet. Metres use the exact factor 0.3048. Layers 
 ## Development
 
 The browser interface lives in `web/`. Run `python3 scripts/refresh.py` to retrieve the source records; install mdbtools first for the Nova Scotia Access export. Run `node --test tests/*.test.mjs`, `python3 -m unittest discover -s tests`, and `python3 scripts/build.py` for a local build. Successful main builds deploy independently to GitHub Pages. Searches and comparisons stay in the browser.
+
+BC observations and coded descriptors are displayed separately from the material field. For Langley tag 30145, GWELLS leaves the first material blank but supplies an observation about a dug well. The numbered bands show drilling order. Their fill distinguishes an empty material field. Neither layer order nor similar depths establish a shared formation, aquifer or well yield.

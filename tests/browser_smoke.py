@@ -34,6 +34,15 @@ def main():
                 page.get_by_label("Depth units").select_option("ft")
                 assert "Depth (ft)" in page.locator("article").first.inner_text()
                 assert page.locator(".slice").count() > 2
+                page.get_by_label("First well").select_option("BC-30145")
+                page.get_by_label("Compare with").select_option("NS-000119")
+                assert "right=NS-000119" in page.url
+                page.reload()
+                page.locator("#aligned tr").first.wait_for()
+                assert page.locator("#left").input_value() == "BC-30145"
+                assert page.locator("#right").input_value() == "NS-000119"
+                assert page.locator("#units").input_value() == "ft"
+                assert any("coarse sand" in row and "shale" in row for row in page.locator("#aligned tr").all_inner_texts())
                 page.screenshot(path=str(screenshots / "desktop.png"), full_page=True)
                 page.set_viewport_size({"width": 390, "height": 844})
                 assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")

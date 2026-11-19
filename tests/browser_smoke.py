@@ -34,6 +34,14 @@ def main():
                 page.get_by_label("Depth units").select_option("ft")
                 assert "Depth (ft)" in page.locator("article").first.inner_text()
                 assert page.locator(".slice").count() > 2
+                tracks = page.locator(".well-track")
+                assert tracks.count() == 2
+                left, right = (tracks.nth(i).bounding_box() for i in range(2))
+                assert left["y"] == right["y"] and left["height"] == right["height"] > 200
+                page.locator("#scale").select_option("shallow")
+                page.locator(".well-track button").first.click()
+                assert page.locator("#probe-depth").input_value()
+                page.locator("#scale").select_option("full")
                 page.get_by_label("First well").select_option("BC-30145")
                 page.get_by_label("Compare with").select_option("NS-000119")
                 assert "right=NS-000119" in page.url
@@ -64,6 +72,7 @@ def main():
                 assert 'Enter a depth' in page.locator('#probe-summary').inner_text()
                 assert page.locator('#pair-evidence').inner_text() == ''
                 page.locator('#example').click()
+                page.locator("#well-plot").screenshot(path=str(screenshots / "columns.png"))
                 page.screenshot(path=str(screenshots / "desktop.png"), full_page=True)
                 page.set_viewport_size({"width": 390, "height": 844})
                 assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")

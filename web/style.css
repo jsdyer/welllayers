@@ -22,3 +22,14 @@
 .probe-marker{position:absolute;z-index:1;width:100%;border-top:2px dashed #111;box-shadow:0 1px white;pointer-events:none}
 .slice{background:#5b5d56}.slice[data-unknown="true"]{background:#c2c4bd}
 @media(max-width:570px){.probe-controls{gap:.6rem}.probe-controls label{flex:1 1 10rem}#pair-evidence{gap:.4rem}.probe-card{padding:.6rem}#sample-table th:first-child{width:23%}}
+
+#columns-title{font:normal 2rem Georgia,serif;color:var(--ink);margin:1rem 0 .7rem}
+.columns{display:grid;grid-template-columns:3.4rem repeat(2,minmax(0,1fr));gap:.4rem .8rem;border:1px solid var(--rule);background:#fffdf5;padding:1.2rem 1.2rem 1.4rem .6rem}
+.well-heading{min-width:0;color:var(--ink)}.well-heading strong,.well-heading small{display:block}.axis-title{align-self:end;text-align:right;font-size:.8rem}
+.well-track,.ruler{height:clamp(300px,40vh,425px);position:relative}
+.well-track{border:1px solid #627064;background:repeating-linear-gradient(135deg,#d5d5c9 0 2px,#f8f6e8 2px 6px)}
+.ruler span{position:absolute;right:0;transform:translateY(-50%);font-size:.75rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.well-track .slice{position:absolute;display:flex;align-items:center;margin:0;border:0;border-top:1px solid #fffcf2;border-radius:0;padding:0 .4rem;min-height:0;overflow:hidden;cursor:pointer;text-align:left;color:#202c28;font:650 .8rem/1 system-ui}
+.slice span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.well-track .slice:focus-visible{z-index:3;outline:3px solid #151f1b;outline-offset:-3px}
+.beyond{position:absolute;bottom:0;left:0;right:0;border-top:2px solid #706958;background:#eeebe0;padding:4px;color:#585645;font-size:.8rem}
+@media(max-width:550px){.columns{grid-template-columns:2.55rem repeat(2,minmax(0,1fr));gap:.35rem;padding:.85rem .5rem 1.1rem .2rem}.well-track .slice{font-size:.72rem}.well-heading{font-size:.88rem}}

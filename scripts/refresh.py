@@ -47,8 +47,15 @@ def bc_log(tag, cache):
     record=json.loads(raw)
     layers=[]
     for item in record['lithologydescription_set']:
-        layer=interval(item['start'],item['end'],item['lithology_raw_data'])
-        if layer: layers.append(layer)
+        layer=interval(item['start'],item['end'],item.get('lithology_raw_data'))
+        if layer:
+            notes = [f"{label}: {item[key]}" for key, label in (
+                ("lithology_colour","Colour"), ("lithology_description","Description"),
+                ("lithology_hardness","Hardness"), ("lithology_observation","Observation")
+            ) if item.get(key)]
+            if notes:
+                layer.append(" · ".join(notes))
+            layers.append(layer)
     if not layers or int(record['well_tag_number'])!=tag:
         raise ValueError(f'Expected well log {tag}')
     return dict(id=str(tag),province='BC',place=record['city'].strip().title(),layers=sorted(layers))

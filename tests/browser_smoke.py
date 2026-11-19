@@ -43,6 +43,27 @@ def main():
                 assert page.locator("#right").input_value() == "NS-000119"
                 assert page.locator("#units").input_value() == "ft"
                 assert any("coarse sand" in row and "shale" in row for row in page.locator("#aligned tr").all_inner_texts())
+                page.locator('#example').click()
+                assert 'coarse sand' in page.locator('#pair-evidence').inner_text()
+                assert 'shale / unknown' in page.locator('#pair-evidence').inner_text()
+                assert 'depth=20' in page.url
+                page.locator('#sample summary').click()
+                assert page.locator('#sample-table tbody tr').count() == int(page.locator('#count').inner_text())
+                page.locator('#sample-area').select_option('Hammonds Plains')
+                assert page.locator('#sample-table tbody tr').count() == 8
+                page.locator('#sample-status').select_option('overlap')
+                assert 'No sample log' in page.locator('#sample-table').inner_text()
+                page.locator('#probe-depth').fill('22.2504')
+                assert 'At the final logged boundary' in page.locator('#pair-evidence').inner_text()
+                page.locator('#units').select_option('ft')
+                assert float(page.locator('#probe-depth').input_value()) == 73
+                page.reload()
+                page.locator('#pair-evidence .probe-card').first.wait_for()
+                assert 'At the final logged boundary' in page.locator('#pair-evidence').inner_text()
+                page.locator('#probe-depth').fill('')
+                assert 'Enter a depth' in page.locator('#probe-summary').inner_text()
+                assert page.locator('#pair-evidence').inner_text() == ''
+                page.locator('#example').click()
                 page.screenshot(path=str(screenshots / "desktop.png"), full_page=True)
                 page.set_viewport_size({"width": 390, "height": 844})
                 assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")

@@ -22,3 +22,42 @@ export function alignedLayers(left, right) {
   }
   return limits.slice(1).map((to,i)=>[limits[i],to,descriptions(left,limits[i],to),descriptions(right,limits[i],to)]);
 }
+
+export const observations = {
+  described: 'Reported material',
+  partial: 'Includes an unknown term',
+  unknown: 'Only unknown terms',
+  empty: 'Material field empty',
+  overlap: 'Overlapping intervals',
+  gap: 'No interval logged here',
+  bottom: 'At the final logged boundary',
+  beyond: 'Below the last logged interval',
+  absent: 'No valid intervals'
+};
+
+export function probeFeet(value, unit) {
+  if (typeof value !== 'string' || !value.trim()) return null;
+  const input = Number(value);
+  if (!Number.isFinite(input) || input < 0) return null;
+  const feet = unit === 'm' ? input / 0.3048 : input;
+  // Provincial depths are stored in feet. Remove conversion noise at a shared boundary.
+  return Number.isFinite(feet) ? Number(feet.toPrecision(14)) : null;
+}
+
+export function sampleAtDepth(log, feet) {
+  const matches = log.layers.filter(([top, end]) => top <= feet && feet < end);
+  if (matches.length > 1) return {status: 'overlap', matches};
+  if (matches.length) {
+    const material = matches[0][2];
+    if (!material || material === 'Material unrecorded') return {status: 'empty', matches};
+    const terms = material.toLowerCase().split('/').map(term => term.trim()).filter(Boolean);
+    if (terms.includes('unknown')) {
+      return {status: terms.every(term => term === 'unknown') ? 'unknown' : 'partial', matches};
+    }
+    return {status: 'described', matches};
+  }
+  if (!log.layers.length) return {status: 'absent', matches};
+  const bottom = Math.max(...log.layers.map(layer => layer[1]));
+  if (feet === bottom) return {status: 'bottom', matches, bottom};
+  return {status: feet > bottom ? 'beyond' : 'gap', matches, bottom};
+}

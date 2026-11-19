@@ -1,7 +1,7 @@
 {
   "id": "welllayers",
   "title": "Well Layers",
-  "description": "Compare two drillers’ logs from Langley and rural Halifax at the same depth in feet or metres.",
+  "description": "Pick a depth to read every sampled Langley and rural Halifax well log, or compare two drillers’ exact intervals side by side.",
   "category": "places",
   "tags": [
     "geology",
@@ -18,7 +18,7 @@
   "access": "browser",
   "data_info": {
     "mode": "snapshot",
-    "detail": "B.C. GWELLS and Nova Scotia’s well-log database record the depths and materials that drillers encountered.",
+    "detail": "B.C. GWELLS descriptions and Nova Scotia well-log material codes supply source intervals, gaps and drilling observations.",
     "cadence": "Monthly",
     "probes": [
       {

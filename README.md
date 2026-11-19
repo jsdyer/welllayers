@@ -3,17 +3,22 @@
 [Open Well Layers](https://coolcode.ca/welllayers/)
 
 <!-- coolcode:guide -->
-Compare Langley well 48 with a Fall River log. Switch between feet and metres to see both drillers’ recorded depths on a common scale.
-The aligned table splits the pair at each recorded boundary and flags depths beyond the shorter log.
+At 20 m, Langley 30145 records “coarse sand” and Hammonds Plains 000119 records “shale / unknown”. Use the paired example to read both intervals, then open the all-logs table to see what every sampled well records at that same depth. Switch units without moving the selected physical depth. The table distinguishes explicit unknown terms, an empty material field, overlapping intervals, gaps and the end of a log.
 <!-- /coolcode:guide -->
 
 ## Reading the records
 
 The B.C. selection follows 18 stable Langley well tags with usable driller descriptions. In the 2020 Nova Scotia Access database, the importer joins stratigraphy rows to colour, description and lithology lookup tables. It selects eight wells spaced across sorted well numbers for each of six rural Halifax County communities, requiring at least two valid intervals. These examples do not constitute a geological survey of either region. Only the public well identifier, nearest community, province and recorded layers are published.
 
-The driller’s source unit is feet. Metres use the exact factor 0.3048. Layers with absent or invalid depth bounds are omitted. Recorded intervals without a material description remain labelled, gaps are explicitly indicated, and the lower edge of the longest record determines the scale. Colours distinguish adjacent intervals and carry no lithology classification. Each column starts at local ground level. Raw logs can contain overlapping intervals. Corrected or incomplete records should be checked against the provincial sources.
+The driller’s source unit is feet. Metres use the exact factor 0.3048. Layers with absent or invalid depth bounds are omitted. Recorded intervals without a material description remain labelled, gaps are explicitly indicated, and the lower edge of the longest record determines the scale. Numbered bands show drilling order. A filled band indicates whether the material field contains text. The full description and any BC observation appear beside each result. Each column starts at local ground level. Raw logs can contain overlapping intervals. Corrected or incomplete records should be checked against the provincial sources.
 
-The address bar keeps the selected wells and depth units when a selection changes. Reopen the [Langley 30145 and Hammonds Plains 000119 comparison](https://coolcode.ca/welllayers/?left=BC-30145&right=NS-000119&units=m) to inspect both logs at 20 metres.
+The address bar keeps the selected wells and depth units when a selection changes. Reopen the [Langley 30145 and Hammonds Plains 000119 comparison](https://coolcode.ca/welllayers/?left=BC-30145&right=NS-000119&units=m&depth=20#depth-probe) to inspect both logs at 20 metres.
+
+## Reading one depth across the sample
+
+The depth lookup uses the interval that begins at or above the chosen point and ends strictly below it. At 50 ft (15.24 m), Langley 30145 enters its coarse-sand interval. At 73 ft (22.2504 m), the log reaches its final boundary. An uncovered depth above the last boundary is a gap. An overlap displays every covering interval.
+
+A blank BC material field can still have an observation. The Nova Scotia archive supplies separate coded fields, and the display retains the terms from their provincial lookups. For example, “shale / unknown” includes a reported term alongside an unknown term. The location and evidence filters apply to the full sampled collection. All depths start at local ground level, which differs between sites.
 
 ## Data and updates
 

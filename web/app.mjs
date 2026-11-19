@@ -32,5 +32,18 @@ try{
  el("count").textContent=format.format(status.count);el("stamp").textContent=status.intervals+" intervals · Retrieved "+status.retrieved;
  for(const id of ["left","right"]){for(const log of records)option(id,log.province+" · "+log.place+" · "+log.id,key(log));}
  el("left").value="BC-48";el("right").value=key(records.find(r=>r.province==="NS"&&r.place==="Fall River"));
- document.querySelector("form").addEventListener("change",render);render();
+ const controlIds = ["left", "right", "units"];
+ const url = new URL(window.location.href);
+ for (const id of controlIds) {
+   const value = url.searchParams.get(id);
+   const select = el(id);
+   if (Array.from(select.options).some(option => option.value === value)) select.value = value;
+ }
+ document.querySelector("form").addEventListener("change", () => {
+   const selection = new URL(window.location.href);
+   for (const id of controlIds) selection.searchParams.set(id, el(id).value);
+   window.history.replaceState(window.history.state, "", selection);
+   render();
+ });
+ render();
 }catch{el("notice").textContent="The well logs could not be loaded. See Sources & method for the original records.";}

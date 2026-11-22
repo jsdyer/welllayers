@@ -29,3 +29,9 @@ A blank BC material field can still have an observation. The Nova Scotia archive
 The browser interface lives in `web/`. Run `python3 scripts/refresh.py` to retrieve the source records; install mdbtools first for the Nova Scotia Access export. Run `node --test tests/*.test.mjs`, `python3 -m unittest discover -s tests`, and `python3 scripts/build.py` for a local build. Successful main builds deploy independently to GitHub Pages. Searches and comparisons stay in the browser.
 
 BC observations and coded descriptors are displayed separately from the material field. For Langley tag 30145, GWELLS leaves the first material blank but supplies an observation about a dug well. The numbered bands show drilling order. The empty-material fill is grey. Empty depths below the final log boundary appear separately from hatched gaps within a log. Neither layer order nor similar depths establish a shared formation, aquifer or well yield.
+
+### Visual review on pull requests
+
+GitHub Actions captures the drilling columns for Langley well 30145 and Hammonds Plains well 000119 at 20 metres at desktop (1280 px) and phone (390 px) viewport widths. Download the **browser-checks** artifact from a workflow run and open the two images in its `percy/` directory.
+
+To compare revisions in [BrowserStack Percy](https://percy.io/), create a **Percy Web** project for this repository, connect the GitHub repository in Percy's integration settings, and copy its project token. In GitHub, open **Settings → Secrets and variables → Actions → New repository secret** and name it `PERCY_TOKEN`. Run **Browser tool · Check and publish → Run workflow** on `main` to create the baseline. Subsequent same-repository pull requests send the same two named images to Percy. Fork pull requests provide the downloadable GitHub artifact only. The optional Percy upload runs independently of Pages deployment.

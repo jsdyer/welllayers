@@ -65,6 +65,44 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: dist
+  visual-review:
+    needs: build
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check Percy configuration
+        id: config
+        env:
+          ENABLED: ${{ secrets.PERCY_TOKEN != '' }}
+        run: |
+          echo "enabled=$ENABLED" >> "$GITHUB_OUTPUT"
+          if [[ "$ENABLED" != true ]]; then
+            echo 'Percy is inactive. Download browser-checks for both visual snapshots.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/checkout@v6
+        if: steps.config.outputs.enabled == 'true'
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        if: steps.config.outputs.enabled == 'true'
+        with:
+          node-version: '24'
+      - uses: actions/download-artifact@v4
+        if: steps.config.outputs.enabled == 'true'
+        with:
+          name: browser-checks
+          path: browser-checks
+      - name: Upload fixed views to Percy
+        if: steps.config.outputs.enabled == 'true'
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+          PERCY_BRANCH: ${{ github.head_ref || github.ref_name }}
+          PERCY_TARGET_BRANCH: ${{ github.base_ref }}
+          PERCY_PULL_REQUEST: ${{ github.event.pull_request.number }}
+          PERCY_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: npx --yes --package=@percy/cli@1.33.1 percy upload browser-checks/percy
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && needs.build.outputs.publish == 'true'
     needs: build

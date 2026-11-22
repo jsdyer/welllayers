@@ -77,6 +77,17 @@ def main():
                 page.set_viewport_size({"width": 390, "height": 844})
                 assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
                 page.screenshot(path=str(screenshots / "mobile.png"), full_page=True)
+                review = screenshots / "percy"
+                review.mkdir(exist_ok=True)
+                for width, height in [(1280, 900), (390, 844)]:
+                    page.set_viewport_size({"width": width, "height": height})
+                    assert page.locator("#left").input_value() == "BC-30145"
+                    assert page.locator("#right").input_value() == "NS-000119"
+                    assert page.locator("#probe-depth").input_value() == "20"
+                    assert page.locator("#units").input_value() == "m"
+                    page.mouse.move(0, 0)
+                    page.locator("#well-plot").screenshot(
+                        path=str(review / f"Langley-Hammonds-Plains-{width}.png"), animations="disabled")
                 assert not errors, errors
                 browser.close()
             print("Browser checks passed: comparison filters, project subpath and mobile layout")

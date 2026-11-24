@@ -35,3 +35,11 @@ BC observations and coded descriptors are displayed separately from the material
 GitHub Actions captures the drilling columns for Langley well 30145 and Hammonds Plains well 000119 at 20 metres at desktop (1280 px) and phone (390 px) viewport widths. Download the **browser-checks** artifact from a workflow run and open the two images in its `percy/` directory.
 
 To compare revisions in [BrowserStack Percy](https://percy.io/), create a **Percy Web** project for this repository, connect the GitHub repository in Percy's integration settings, and copy its project token. In GitHub, open **Settings → Secrets and variables → Actions → New repository secret** and name it `PERCY_TOKEN`. Run **Browser tool · Check and publish → Run workflow** on `main` to create the baseline. Subsequent same-repository pull requests send the same two named images to Percy. Fork pull requests provide the downloadable GitHub artifact only. The optional Percy upload runs independently of Pages deployment.
+
+<!-- schedule-reliability -->
+## Schedule reliability
+
+Public GitHub repositories can have scheduled workflows disabled after 60 days of inactivity. A separate weekly [schedule guard](.github/workflows/schedule-guard.yml) calls GitHub's enable-workflow API for an explicit list of refresh workflows and itself. It can restore workflows disabled for inactivity, preserves manually disabled workflows, and runs independently of collection failures.
+
+This is an interim mitigation, not a scheduling guarantee: GitHub does not document active-workflow renewal as a permanent exemption, and scheduled runs can be delayed or dropped. A scheduler on our own Linux server is the planned independent trigger. The guard does not collect data, create dummy commits, or change source/check timestamps; successful collection and published data freshness still need monitoring.
+<!-- /schedule-reliability -->
